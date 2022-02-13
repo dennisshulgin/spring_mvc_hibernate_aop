@@ -1,6 +1,7 @@
 package org.shulgin.spring_mvc_hibernate_aop.dao;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.shulgin.spring_mvc_hibernate_aop.entity.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,5 +35,15 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     public Employee getEmployeeById(int id) {
         return sessionFactory.getCurrentSession()
                 .get(Employee.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEmployee(int id) {
+        String query = "delete from Employee where id=:employeeId";
+        Query<Employee> deleteQuery = sessionFactory.getCurrentSession()
+                .createQuery(query)
+                .setParameter("employeeId", id);
+        deleteQuery.executeUpdate();
     }
 }

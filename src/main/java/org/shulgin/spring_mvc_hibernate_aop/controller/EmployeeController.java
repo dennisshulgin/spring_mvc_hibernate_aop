@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,5 +39,12 @@ public class EmployeeController {
             return "employee-info";
         employeeService.saveEmployee(employee);
         return "redirect:/";
+    }
+
+    @RequestMapping("/updateInfo")
+    public String updateInfo(@RequestParam("empId") int id, Model model) {
+        Employee employee = employeeService.getEmployeeById(id);
+        model.addAttribute("employee", employee);
+        return "employee-info";
     }
 }
